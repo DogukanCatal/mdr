@@ -1,6 +1,7 @@
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { sbAdmin } from "@/lib/supabase/server";
+import ReportForm from "./ReportForm";
 
 export default async function BranchDash() {
   const s = await getSession();
@@ -21,6 +22,7 @@ export default async function BranchDash() {
       <form action="/api/logout" method="post" className="mt-6">
         <button className="border p-2">Çıkış</button>
       </form>
+      <ReportForm />
     </main>
   );
 }
