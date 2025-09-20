@@ -7,12 +7,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import Image from "next/image";
 
 export function PhotoPreview({ url }: { url: string }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <img
+        <Image
           src={url}
           alt="report photo"
           className="w-32 h-32 object-cover rounded cursor-pointer hover:opacity-80"
@@ -23,7 +24,7 @@ export function PhotoPreview({ url }: { url: string }) {
           <DialogTitle></DialogTitle>
         </DialogHeader>
         <div className="flex items-center justify-center w-full h-full">
-          <img
+          <Image
             src={url}
             alt="report photo enlarged"
             className="max-w-[95vw] max-h-[95vh] object-contain rounded"

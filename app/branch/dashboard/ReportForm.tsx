@@ -22,18 +22,12 @@ function Num(props: React.ComponentProps<"input">) {
 }
 
 export default function ReportForm() {
-  const now = new Date();
   const [pending, startTransition] = useTransition();
   const [files, setFiles] = useState<File[]>([]); // photos ayrı
 
   const resolver = zodResolver(reportFormSchema) as Resolver<ReportFormValues>;
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<ReportFormValues>({
+  const { register, handleSubmit, reset } = useForm<ReportFormValues>({
     resolver, // <— buraya ver
     mode: "onBlur",
     shouldUnregister: true,
@@ -81,7 +75,7 @@ export default function ReportForm() {
     Object.entries(values).forEach(([k, v]) => fd.append(k, String(v as any)));
 
     startTransition(async () => {
-      const res = await createReport(null, fd); // ← DB insert
+      const res = await createReport(fd); // ← DB insert
       if (!res.ok) {
         alert(res.error || "Hata");
         return;
