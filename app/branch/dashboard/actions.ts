@@ -3,7 +3,7 @@ import { sbAdmin } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
 import { reportFormSchema } from "@/lib/validation";
 
-export async function createReport(_prev: any, formData: FormData) {
+export async function createReport(formData: FormData) {
   const raw = (await cookies()).get("session")?.value;
   const json = raw ? raw.slice(0, raw.lastIndexOf(".")) : "";
   const s = json ? JSON.parse(json) : null;
