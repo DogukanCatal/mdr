@@ -36,15 +36,16 @@ export default function AdminFilters({
     if (branch) p.set("branch", branch);
     if (from) p.set("from", from);
     if (to) p.set("to", to);
-    console.log("first");
+    console.log("Apply =>", `/admin/panel?${p.toString()}`);
     router.push(`/admin/panel?${p.toString()}`);
+    router.refresh();
   }
   function clearAll() {
     router.push(`/admin/panel`);
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
+    <div className="grid grid-cols-1 md:flex md:space-x-2 md:items-end gap-2">
       <div>
         <Label>Şube</Label>
         <Select value={branch} onValueChange={setBranch}>
@@ -72,11 +73,11 @@ export default function AdminFilters({
         <Label>Bitiş</Label>
         <Input type="date" value={to} onChange={(e) => setTo(e.target.value)} />
       </div>
-      <div className="flex gap-2">
-        <Button onClick={apply} className="w-full">
+      <div className="md:flex gap-2 items-end space-y-2 md:space-y-0">
+        <Button type="button" onClick={apply} className="w-full">
           Uygula
         </Button>
-        <Button variant="outline" onClick={clearAll}>
+        <Button variant="outline" className="w-full" onClick={clearAll}>
           Temizle
         </Button>
       </div>
