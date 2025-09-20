@@ -72,17 +72,29 @@ export default function ReportForm() {
 
   const onSubmit: SubmitHandler<ReportFormValues> = (values) => {
     const fd = new FormData();
-    Object.entries(values).forEach(([k, v]) => fd.append(k, String(v as any)));
+
+    // Tüm key’leri tip güvenli olarak dolaş
+    (Object.keys(values) as (keyof ReportFormValues)[]).forEach((k) => {
+      const v = values[k];
+
+      if (v === undefined || v === null) return;
+
+      if (v instanceof Date) {
+        fd.append(k, v.toISOString().slice(0, 10)); // tarihleri YYYY-MM-DD formatında kaydet
+      } else {
+        fd.append(k, String(v));
+      }
+    });
 
     startTransition(async () => {
-      const res = await createReport(fd); // ← DB insert
+      const res = await createReport(fd); // DB insert
       if (!res.ok) {
         alert(res.error || "Hata");
         return;
       }
       const reportId = res.reportId as string;
 
-      // Foto yükle
+      // Foto yükleme
       await Promise.all(
         files.slice(0, 3).map(async (file) => {
           const compressed = await compressToWebP(file, {
